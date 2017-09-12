@@ -1,0 +1,450 @@
+@font-face {
+	font-family: 'gillsansmt';
+	src: url('./gillsansmt.woff');
+	src: local('gillsansmt'), url('./gillsansmt.woff') format('woff'), url('./gillsansmt.ttf') format('truetype');
+}
+
+body{
+	margin: 0px auto;
+	*font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans serif;	
+	*font-family: Arial !important;
+	font-family:gillsansmt;
+}
+
+#wrapper{
+	width: 1000px;
+	min-height: 400px;
+	background: #fff;
+	margin: 0px auto;
+}
+
+#header{
+	width: 1000px;
+	height: 50px;
+	padding-top: 20px;
+}
+#footer{
+	width: 1000px;
+	height: 50px;
+	border-top: 1px solid #ccc;
+}
+#container{
+	width: 1000px;
+	min-height: 560px;
+}
+#logo{
+	width: 200px;
+	height: 50px;
+	float: left;
+	margin-left: 80px;
+}
+#tabs{
+	width: 620px;
+	height: 50px;
+	float: left;
+}
+#logo-image{
+	width: 30px;
+	height: 30px;
+	padding: 5px;
+	padding-top: 5px;
+	background: url('../images/logo.png') no-repeat center center / auto 100% transparent;
+	float: left;
+}
+#logo-text{
+	height: 60px;
+	width: 250px;
+	font-size: 25px;
+	color: #3498db;
+	text-align: left;
+	margin-top: 5px;
+}
+#navbar{
+	width: 100%;
+	height: 100%;
+	margin-top: -10px;
+}
+#navbar ul{
+	list-style-type: none;
+	text-align: center;
+}
+#navbar ul li{
+	float: left;
+	padding: 3px 15px 3px 15px;
+	background: #fff;
+	border:1px solid #3498db;
+	text-align: center;
+	font-size: 14px;
+}
+#navbar ul li:hover{
+	background: #3498db;
+}
+#navbar ul li a{
+	
+}
+#footer{
+	color: #ccc;
+	padding-top:10px;
+}
+
+
+
+
+#profile{
+	width: 730px;
+	height: 250px;
+	padding-left: 270px;
+}
+#post{
+	width: 800px;
+	height: 60px;
+	padding-left: 200px;
+	padding-top: 20px;
+}
+#skilljar{
+	width: 700px;
+	min-height: 80px;
+	padding-left: 200px;
+	padding-bottom: 20px;
+	padding-top: 20px;
+	padding-right: 100px;
+}
+#events{
+	width: 800px;
+	min-height: 80px;
+	padding-left: 200px;
+	padding-bottom: 20px;
+}
+#portfolio{
+	width: 800px;
+	min-height: 80px;
+	padding-left: 200px;
+	padding-bottom: 20px;
+}
+
+
+
+
+
+.leftside-icon{
+	width:50px;
+	height:50px;
+	float:left;
+	position:absolute;
+	margin-left:-100px;
+	margin-top: 20px;
+}
+
+
+
+#container ul{
+	padding-left: 50px;
+	list-style-type: none;
+}
+
+#events ul{
+	list-style-image: url(../images/events-li.png);
+}
+#events ul li{
+	padding: 0px 0px 8px 16px;
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+
+#portfolio ul{
+	list-style-image: url(../images/portfolio-li.png);
+}
+#portfolio ul li{
+	padding: 0px 0px 8px 16px;
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+
+
+
+
+#post input{
+	margin-left: 75px;
+	font-size: 14px;
+	width: 300px;
+	padding:6px;
+	float: left;
+	margin-top: 5px;
+	border: 1px solid #3498db;
+}
+#post button{
+	padding: 5px;
+	margin-top: 5px;
+	background: #3498db;
+	color:#fff;
+	font-weight: bold;
+	font-size: 16px;
+	border: 0px;
+	padding-right: 8px;
+	padding-left:8px;
+	cursor: pointer;
+}
+#post img{
+	float: left;
+	padding: 5px;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+
+
+
+#profile-name{
+	width: 200px;
+	height: 150px;
+	float: left;
+	color: black;
+	padding-top: 100px;
+	text-align: right;
+}
+#profile-pic{
+	width: 200px;
+	height: 200px;
+	float: left;
+}
+#profile-status{
+	width: 150px;
+	height: 150px;
+	float: left;
+	padding-top: 100px;
+	text-align: left;
+	color: #3498db;
+}
+.status-content {
+	padding: 5px;
+	font-size: 14px;
+}
+#dp{
+	height: 160px;
+	width: 160px;
+	margin-top: 45px;
+}
+#dp img{
+	border-radius: 100px;
+}
+
+
+
+
+.skilljar-item{
+	min-width: 100px;
+	height: 30px;
+	background: #e0e0e0;
+	padding: 4px 6px 4px 6px;
+	*border: 1px solid #3498db;
+	line-height: 2em;
+	font-size: 14px;
+	border-radius: 2px;
+	box-shadow: 0px 0px 1px #000;
+}
+
+
+
+#layer{
+	background: rgba(0,0,0,0.4);
+	position: fixed;
+	overflow: hidden;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.close{
+	font-size: 22px;
+	position: absolute;
+	right: 10px;
+	top: 3px;
+	cursor: pointer;
+}
+
+.add-event-button{
+	cursor: pointer;
+}
+
+.add-item-box{
+	width: 400px;
+	height: 200px;
+	background: #fafafa;
+	box-shadow: 0px 0px 20px #000;
+	z-index: 100;
+	border-radius: 5px;
+}
+
+.add-item-box-content{
+	padding: 20px;
+}
+.add-item-box-content input{
+	font-size: 18px;
+	padding:5px;
+	width: 300px;
+}
+.add-item-box-content button{
+	padding: 7px;
+	margin-top: 5px;
+	background: #3498db;
+	color:#fff;
+	font-weight: bold;
+	font-size: 16px;
+	border: 0px;
+	padding-right: 8px;
+	padding-left:8px;
+}
+
+
+
+/******** UPLOAD DP THINGS STARTS *********/
+
+#dp-upload{
+	width: 30px;
+	height: 30px;
+	position: absolute;
+	margin-top: -20px;
+	margin-left: 90px;
+	background: url(../images/dp-upload.png) no-repeat;
+	cursor: pointer;
+}
+
+#dp-box{
+	width: 400px;
+	height: 200px;
+	background: #fafafa;
+	box-shadow: 0px 0px 20px #000;
+	z-index: 1100;
+	border-radius: 5px;
+}
+
+#dp-box-content{
+	padding: 20px;
+}
+#dp-box-content input{
+	font-size: 15px;
+	padding:5px;
+}
+.upload-button{
+	padding: 5px;
+	margin-top: 5px;
+	background: #3498db;
+	color:#fff;
+	font-weight: bold;
+	font-size: 16px;
+	border: 0px;
+	padding-right: 8px;
+	padding-left:8px;
+}
+
+/******** UPLOAD DP THINGS ENDS *********/
+
+
+
+
+/******* TAG POP UP STARTS *******/
+
+#tags-outer-box{
+	background: #fafafa;
+	width:300px;
+	min-height: 100%;
+	overflow: auto;
+	padding:15px;
+}
+.close2{
+	font-size: 22px;
+	position: absolute;
+	right: 10px;
+	top: 3px;
+	cursor: pointer;
+}
+
+#tags-outer-box3{
+	background: #fafafa;
+	width:300px;
+	min-height: 100%;
+	overflow: auto;
+	padding:15px;
+	right: 0px;
+	top: 0px;
+	position: fixed;
+}
+.close3{
+	font-size: 22px;
+	position: absolute;
+	right: 10px;
+	top: 3px;
+	cursor: pointer;
+}
+
+/******* TAG POP UP ENDS *******/
+
+
+
+
+#profile-details-icon{
+	height: 30px;
+	width: 30px;
+	background: #ccc;
+	float: right;
+	margin-right: 100px;
+	background: url('../images/profile.png') center center / auto 100% transparent;
+	opacity: 0.6;
+	cursor: pointer;
+}
+#profile-details-icon:hover {
+	opacity: 1;	
+}
+#profile-details input{
+	width: 250px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.member-outer-box{
+	width: 100px;
+	height: 130px;
+	background: #f0f0f0;
+	border-radius: 3px;
+	border: 1px solid #ccc;
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+}
+.member-box-image{
+	width: 80px;
+	height: 80px;
+}
+.member-box-image img{
+	border-radius: 50px;
+	border: 1px solid #fff;	
+}
+
+.member-box-details{
+	width: 100px;
+	height: 50px;
+	overflow: hidden;	
+}
+.member-details-name{
+	font-size: 10px;
+	overflow: hidden;
+}
+.member-details-regno{
+	font-size: 14px;	
+}

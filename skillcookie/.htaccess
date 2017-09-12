@@ -1,0 +1,83 @@
+
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ index.php [NC,L]
+DirectoryIndex index.php
+        
+<IfModule mod_rewrite.c>
+    SetEnv HTTP_MOD_REWRITE On
+</IfModule>
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^.*$ index.php [NC,L]
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_URI} .*\.html [OR]
+RewriteCond %{REQUEST_URI} .*\.htm
+RewriteCond %{REQUEST_URI} !.*\.php
+RewriteRule ^.*$ index.php [NC,L]
+DirectoryIndex index.php
+        
+<IfModule mod_rewrite.c>
+    SetEnv HTTP_MOD_REWRITE On
+</IfModule>
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^.*$ index.php [NC,L]
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_URI} .*\.html [OR]
+RewriteCond %{REQUEST_URI} .*\.htm
+RewriteCond %{REQUEST_URI} !.*\.php
+RewriteRule ^.*$ index.php [NC,L]
+DirectoryIndex index.php
+        
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ index.php [NC,L]
+DirectoryIndex index.php
+        
+<IfModule mod_rewrite.c>
+    SetEnv HTTP_MOD_REWRITE On
+</IfModule>
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^.*$ index.php [NC,L]
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_URI} .*\.html [OR]
+RewriteCond %{REQUEST_URI} .*\.htm
+RewriteCond %{REQUEST_URI} !.*\.php
+RewriteRule ^.*$ index.php [NC,L]
+DirectoryIndex index.php
+        
+
+<IfModule mod_rewrite.c>
+    SetEnv HTTP_MOD_REWRITE On
+</IfModule>
+
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^.*$ index.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_URI} .*\.html [OR]
+RewriteCond %{REQUEST_URI} .*\.htm
+RewriteCond %{REQUEST_URI} !.*\.php
+RewriteRule ^.*$ index.php [NC,L]
+
+DirectoryIndex index.php
+        

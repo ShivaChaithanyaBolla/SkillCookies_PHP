@@ -1,0 +1,287 @@
+<?php
+	require_once('./classes/Others.php');
+	class User extends Others {
+
+		public function getUsername($regno) {
+			require_once('./authen.php');
+			$query='SELECT * FROM `signup` WHERE `regno`="'.$regno.'"';
+			$res=mysql_query($query);
+			while($data=mysql_fetch_array($res)) {
+				$user=$data['name'];
+			}
+			return $user;
+		}
+
+		public function validUsername($regno) {
+			require_once('./authen.php');
+			$query='SELECT * FROM `signup` WHERE `regno`="'.$regno.'"';
+			$res=mysql_query($query);
+			$user = "0";
+			while($data=mysql_fetch_array($res)) {
+				$user=$data['name'];
+			}
+			return $user;
+		}
+
+		public function getAllEventsByRegno($regno){
+			require_once('./authen.php');
+			$query='SELECT `event` FROM `events` WHERE `regno`="'.$regno.'" ORDER BY `time` DESC';
+			$res=mysql_query($query);
+			$events = array();
+			while($data=mysql_fetch_array($res)) {
+				array_push($events, $data['event']);
+			}
+			return $events;
+		}
+
+		public function getAllPortfoliosByRegno($regno){
+			require_once('./authen.php');
+			$query='SELECT `portfolio` FROM `portfolio` WHERE `regno`="'.$regno.'" ORDER BY `time` DESC';
+			$res=mysql_query($query);
+			$events = array();
+			while($data=mysql_fetch_array($res)) {
+				array_push($events, $data['portfolio']);
+			}
+			return $events;
+		}
+
+		public function addEvent($regno, $event, $posttags){
+			require_once('./authen.php');
+			$query="INSERT INTO `events` (`regno`, `event`, `tags`) VALUES ('".htmlentities($regno)."','".htmlentities($event)."', '".htmlentities($posttags)."')";
+			mysql_query($query);
+		}
+
+		public function addPin($regno, $pin, $posttags){
+			require_once('./authen.php');
+			$query="INSERT INTO `pins` (`regno`, `pin`, `tags`) VALUES ('".htmlentities($regno)."','".htmlentities($pin)."', '".htmlentities($posttags)."')";
+			mysql_query($query);
+		}
+
+		public function addGig($regno, $gig, $posttags){
+			require_once('./authen.php');
+			$query="INSERT INTO `gigs` (`regno`, `gig`, `tags`) VALUES ('".htmlentities($regno)."','".htmlentities($gig)."', '".htmlentities($posttags)."')";
+			mysql_query($query);
+		}
+
+		public function addPortfolio($regno, $portfolio, $posttags){
+			require_once('./authen.php');
+			$query="INSERT INTO `portfolio` (`regno`, `portfolio`, `tags`) VALUES ('".htmlentities($regno)."','".htmlentities($portfolio)."', '".htmlentities($posttags)."')";
+			mysql_query($query);
+		}
+
+		public function addDetails($regno, $email, $phone, $website, $details){
+			require_once('./authen.php');
+			$q = mysql_query("SELECT `regno` FROM `details` WHERE `regno` = '".$regno."'");
+			if(mysql_num_rows($q) > 0) {	//user exists
+				mysql_query('UPDATE `details` SET `email`="'.htmlentities($email).'", `phone`="'.htmlentities($phone).'", `website`="'.htmlentities($website).'", `details`="'.htmlentities($details).'" WHERE `regno` = "'.$regno.'"');
+				return true;
+			}
+			else {	//user doesn't exist
+				mysql_query("INSERT INTO `details` (`regno`, `email`, `phone`, `website`, `details`) VALUES ('".htmlentities($regno)."','".htmlentities($email)."', '".htmlentities($phone)."', '".htmlentities($website)."', '".htmlentities($details)."')");
+				return false;
+			}
+		}
+
+		public function isDpSet($regno) {
+			require_once('./authen.php');
+			$q = mysql_query("SELECT `regno` FROM `profile` WHERE `regno` = '".$regno."'");
+			if(mysql_num_rows($q) > 0)
+				return true;	//user exists
+			else 
+				return false;	//user doesn't exist
+		}
+
+		public function getDp($regno) {
+			require_once('./authen.php');
+			$query='SELECT * FROM `profile` WHERE `regno`="'.$regno.'"';
+			$res=mysql_query($query);
+			$path="./images/defaultdp.png";
+			while($data=mysql_fetch_array($res)) {
+				$path=$data['dppath'];
+			}
+			return $path;
+		}
+		public function getName($regno) {
+			require_once('./authen.php');
+			$query='SELECT * FROM `signup` WHERE `regno`="'.$regno.'"';
+			$res=mysql_query($query);
+			while($data=mysql_fetch_array($res)) {
+				$path=$data['name'];
+			}
+			return $path;
+		}
+
+		public function getAllSkillsByRegno($regno) {
+			require_once('./authen.php');
+			$query='SELECT `skillname` FROM `skills` WHERE `regno` = "'.$regno.'"';
+			$res=mysql_query($query);
+			$events = array();
+			while($data=mysql_fetch_array($res)) {
+				array_push($events, $data['skillname']);
+			}
+			return $events;
+		}
+
+		public function addSkilljar($regno, $skilljar){
+			require_once('./authen.php');
+			if($this->skillExistence($skilljar) == true) {
+				//if exists in the skill list, then add it to the profile of the user
+				mysql_query("INSERT INTO `skills` (`regno`, `skillname`) VALUES ('".htmlentities($regno)."','".htmlentities($skilljar)."')");
+				echo "Skill added!";
+			} else {
+				mysql_query("INSERT INTO `skillapproverequest` (`skillname`, `regno`) VALUES ('".htmlentities($skilljar)."','".htmlentities($regno)."')");
+				echo "This skill is sent to admin for approval.";
+			}			
+		}
+
+		public function skillExistence($skill) {
+			require_once('./authen.php');
+			$q = mysql_query("SELECT `skillname` FROM `skilljar` WHERE `skillname` = '".$skill."'");
+			if(mysql_num_rows($q) > 0)
+				return true;	//user exists
+			else 
+				return false;	//user doesn't exist
+		}
+
+		public function countEvent($regno) {
+			require_once('./authen.php');
+			$query='SELECT COUNT(*) FROM `events` WHERE `regno` = "'.$regno.'"';
+			$res=mysql_fetch_row(mysql_query($query));
+			return $res[0];
+		}
+
+		public function countGigs($regno) {
+			require_once('./authen.php');
+			$query='SELECT COUNT(*) FROM `gigs` WHERE `regno` = "'.$regno.'"';
+			$res=mysql_fetch_row(mysql_query($query));
+			return $res[0];
+		}
+
+		public function countPins($regno) {
+			require_once('./authen.php');
+			$query='SELECT COUNT(*) FROM `pins` WHERE `regno` = "'.$regno.'"';
+			$res=mysql_fetch_row(mysql_query($query));
+			return $res[0];
+		}
+
+		public function getSkillsList() {
+			require_once('./authen.php');
+			$query='SELECT `skillname` FROM `skills`';
+			$res=mysql_query($query);
+			$events = array();
+			while($data=mysql_fetch_array($res)) {
+				array_push($events, $data['skillname']);
+			}
+			return $events;
+		}
+
+		public function getDescription($regno) {
+			require_once('./authen.php');
+			$query='SELECT `details` FROM `details` WHERE `regno` = "'.$regno.'"';
+			$res=mysql_fetch_row(mysql_query($query));
+			return $res[0];	
+		}
+
+		
+
+		public function addMemberToClub($regno, $addregno){
+			$addreg = $addregno;
+			$addregno = $addregno."|";
+			require_once('./authen.php');
+			$q = mysql_query("SELECT `regno` FROM `club_members` WHERE `regno` = '".$regno."'");
+			if(mysql_num_rows($q) > 0) {	//user exists
+				$query='SELECT `members` FROM `club_members` WHERE `regno` = "'.$regno.'"';
+				$res=mysql_fetch_row(mysql_query($query));
+				$mem = $res[0];
+				$members = explode("|", $mem);
+				//print_r($members);
+				for($i=0;$i<(count($members)-1);$i++) {
+					if($members[$i]==$addreg) {
+						echo "Already exists.";
+						return;
+					}
+				}
+				$updated = $mem.$addregno;
+				mysql_query('UPDATE `club_members` SET `members`="'.$updated.'" WHERE `regno` = "'.$regno.'"');
+				echo "Member added.";
+			}
+			else {	//user doesn't exist
+				mysql_query("INSERT INTO `club_members` (`regno`, `members`) VALUES ('".$regno."','".$addregno."')");
+				echo "Member added.";
+			}
+
+		}
+
+		public function getAllMembers($regno) {
+			require_once('./authen.php');
+			$query='SELECT `members` FROM `club_members` WHERE `regno` = "'.$regno.'"';
+			$res=mysql_fetch_row(mysql_query($query));
+			$mem = $res[0];
+			return $mem;
+		}
+
+		public function getAllClubs() {
+			require_once('./authen.php');
+			$query='SELECT `username` FROM `signup_club`';
+			$res=mysql_query($query);
+			$clubs = array();
+			while($data=mysql_fetch_array($res)) {
+				array_push($clubs, $data['username']);
+			}
+			return $clubs;
+		}
+
+
+		public function sendMessage($from, $to, $msg, $time){
+			require_once('./authen.php');
+			$query="INSERT INTO `messages` (`from`, `to`,`message`, `time`) VALUES ('".htmlentities($from)."','".htmlentities($to)."', '".htmlentities($msg)."', '".htmlentities($time)."')";
+			mysql_query($query);
+		}
+
+		public function getMessages($to, $from) {
+			require_once('./authen.php');
+			$query = 'SELECT * FROM `messages` WHERE `to` = "'.$to.'" AND `from` = "'.$from.'" OR `to` = "'.$from.'" AND `from` = "'.$to.'" ORDER BY `time` DESC';
+			$res = mysql_query($query);
+			while ($data = mysql_fetch_array($res)) {
+				echo '<span style="font-family:gillsansmt;font-size:17px;color:rgb(200,10,10);font-weight:bold;">'.ucwords($this->getUsername($data['from'])).'</span><br>';
+				echo '<span style="font-family:gillsansmt;font-size:16px;">'.$data['message'].'</span>';
+				echo '<span style="font-family:gillsansmt;float:right;color:grey;font-size:14px;">'.gmdate("Y-m-d\ | H:i:s", $data['time']).'</span>';
+
+				echo '<hr style="color:#fff;">';
+			}
+		}
+
+		public function getInboxMsgs($user) {
+			echo '<div style="width:46%;height:96%;float:left;border-right:1px solid #ccc;padding:2%;overflow:auto;font-family:gillsansmt;">
+							<h3>Inbox</h3><hr>';
+			require_once('./authen.php');
+			$query = 'SELECT DISTINCT `from` FROM `messages` WHERE `to` = "'.$user.'" ORDER BY `time` DESC';
+			$res = mysql_query($query);
+			while ($data = mysql_fetch_array($res)) {
+				echo '<a style="text-decoration:none;font-family:gillsansmt;" href="message.php?id='.$this->encrypt($data['from']).'">';
+				echo '<span style="font-family:gillsansmt;font-size:17px;color:rgb(200,10,10);font-weight:bold;">'.ucwords($this->getUsername($data['from'])).'</span><br>';
+				echo '<hr style="color:#fff;">';
+				echo '</a>';
+			}
+			echo '</div>';
+		}
+
+		public function getSentMsgs($user) {
+
+			echo '<div style="width:44%;font-family:gillsansmt;float:right;height:96%;padding:2%;overflow:auto;">
+							<h3>Sent</h3><hr>';
+			require_once('./authen.php');
+			$query = 'SELECT DISTINCT `to` FROM `messages` WHERE `from` = "'.$user.'" ORDER BY `time` DESC';
+			$res = mysql_query($query);
+			while ($data = mysql_fetch_array($res)) {
+				echo '<a style="text-decoration:none;font-family:gillsansmt;" href="message.php?id='.$this->encrypt($data['to']).'">';
+				echo '<span style="font-family:gillsansmt;font-size:17px;color:rgb(200,10,10);font-weight:bold;">'.ucwords($this->getUsername($data['to'])).'</span><br>';
+				echo '<hr style="color:#fff;">';
+				echo '</a>';
+			}
+			echo '</div>';
+		}
+
+	}
+
+?>

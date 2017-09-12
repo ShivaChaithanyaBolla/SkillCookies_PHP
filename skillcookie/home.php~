@@ -1,0 +1,411 @@
+<?php
+	error_reporting(1);
+	if(!isset($_COOKIE['_u__']) || isset($_COOKIE['_u__']) == '') {
+		header("Location:index.php");
+	}
+	if(isset($_COOKIE['_u__']) || isset($_COOKIE['_u__']) != '') {
+		require_once('./classes/User.php');
+		$ob = new User();
+		$regno = $ob->decrypt($_COOKIE['_u__']);
+		if(strlen($regno) != 10 && is_numeric($regno) != 1) {
+			header("Location:homeclub.php");
+		}		
+	}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		SkillCookie
+	</title> 
+	<script type="text/javascript" src="./js/jquery2.js"></script>
+	<script type="text/javascript" src="./js/actions.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="./css/home.css">
+</head>
+<body>
+
+<div id="wrapper">
+
+
+
+
+	<div id="header">
+		<div id="logo">
+			<div id="logo-image">
+
+			</div>
+			<div id="logo-text">
+				SkillCookie	
+			</div>
+		</div>
+
+		<div id="tabs">
+			<?php
+				require_once('tabs.php');
+			?>
+		</div>
+	</div>
+
+
+
+
+
+	<div id="container">
+		
+
+		<div id="profile">			
+			<div id="profile-name">
+				<?php
+					if(isset($_COOKIE['_u__'])) {
+						require_once('./classes/User.php');
+						$ob = new User();
+						$regno = $ob->decrypt($_COOKIE['_u__']);
+						echo ucwords($ob->getUsername($regno));
+					}
+				?>
+			</div>
+
+			<div id="profile-pic">
+				<center>
+				<div id="dp">
+				<?php
+					if(isset($_COOKIE['_u__'])) {
+						require_once('./classes/User.php');
+						$ob = new User();
+						$regno = $ob->decrypt($_COOKIE['_u__']);
+						if($ob->isDpSet($regno) == true) {
+							$dp_path = $ob->getDp($regno);	
+						}
+						else {
+							$dp_path = './images/defaultdp.png';
+						}
+						echo '<img src="'.$dp_path.'" width="100%" height="100%">';
+					}
+				?>
+				</div>
+				<div id="dp-upload">
+					
+				</div>
+				</center>
+			</div>
+			
+			<div id="profile-status">
+				<?php
+					if(isset($_COOKIE['_u__'])) {
+						require_once('./classes/User.php');
+						$ob = new User();
+						$regno = $ob->decrypt($_COOKIE['_u__']);
+						echo'
+						<!--<span class="status-content">1000 Followers</span>
+						<span class="status-content">25 Following</span><br>-->
+						<span class="status-content">'.$ob->countEvent($regno).' Events</span><br>
+						<span class="status-content">'.$ob->countGigs($regno).' Gigs</span><br>
+						<span class="status-content">'.$ob->countPins($regno).' Pin</span>
+						';
+					}
+				?>
+			</div>
+
+			<div id="profile-details-icon">
+				
+			</div>
+
+		</div>
+		
+		
+
+
+		<div id="post">
+			<input type="text" name="add-post" id="add-post"> 
+
+			<img id="pin" src="./images/pin.png" height="30" width="30" style="cursor:pointer;">
+			<img id="gigs" src="./images/suitcase.png" height="30" width="30" style="cursor:pointer;">
+			<img id="event_post" src="./images/events.png" height="30" width="30" style="cursor:pointer;">
+			
+			<input type="hidden" name="add-post-type" id="add-post-type" value="">
+			<input type="hidden" name="post-tags" id="post-tags" value="">
+			
+			<button class="post" id="add-tag-button" style="background:#e74c3c;">Add a Tag</button>
+			<button class="post" id="add-post-button">Post</button>
+			<span id="posted" style="color:red;font-size:12px;margin-top:-25px;margin-left:-577px;position:absolute;"></span>
+			<br>
+			<span id="type-post" style="color:#888;font-size:10px;margin-left:-415px;"></span><br>
+			<span id="post-tags-display" style="color:#000;font-size:10px;margin-left:75px;"></span>
+
+		</div>		
+
+
+		
+		<div id="skilljar" style="max-width:700px;">
+			<div class="leftside-icon" style="margin-top:-10px;">
+				<img src="./images/skilljar.png" width=100% height=100%>
+			</div>
+			
+				<?php
+					if(isset($_COOKIE['_u__'])) {
+						require_once('./classes/User.php');
+						$ob = new User();
+						$regno = $ob->decrypt($_COOKIE['_u__']);
+						$arr = $ob->getAllSkillsByRegno($regno);
+					}
+					for($i=0;$i<count($arr);$i++) {
+						$name = $ob->encrypt($arr[$i]);
+						echo '
+						<a style="text-decoration:none;" href="skilljar.php?skill='.$name.'">
+						<span class="skilljar-item">'.$arr[$i].'</span>
+						</a>';
+					}
+				?>
+
+			<br>
+			<img id="add-button-skilljar" src="./images/add.png" height="20" width="20" style="margin-top:20px;margin-left:65px;cursor:pointer;">
+
+		</div>
+
+
+
+		<div id="events">
+			<div class="leftside-icon">
+				<img src="./images/events.png" width=110% height=100%>
+			</div>
+	
+			<ul>
+				<?php
+					if(isset($_COOKIE['_u__'])) {
+						require_once('./classes/User.php');
+						$ob = new User();
+						$regno = $ob->decrypt($_COOKIE['_u__']);
+						$arr = $ob->getAllEventsByRegno($regno);
+					}
+					for($i=0;$i<count($arr);$i++) {
+						echo "<li>".$arr[$i]."</li>";
+					}
+				?>
+			</ul>
+			<img id="add-button-event" src="./images/add.png" height="20" width="20" style="margin-left:65px;cursor:pointer;">
+		</div>
+
+
+
+		<div id="portfolio">
+			<div class="leftside-icon">
+				<img src="./images/portfolio.png" width=120% height=120%>
+			</div>
+			<ul>
+				<?php
+					if(isset($_COOKIE['_u__'])) {
+						require_once('./classes/User.php');
+						$ob = new User();
+						$regno = $ob->decrypt($_COOKIE['_u__']);
+						$arr = $ob->getAllPortfoliosByRegno($regno);
+					}
+					for($i=0;$i<count($arr);$i++) {
+						echo "<li>".$arr[$i]."</li>";
+					}
+				?>
+			</ul>
+			<img id="add-button-portfolio" src="./images/add.png" height="20" width="20" style="margin-left:65px;cursor:pointer;">
+		</div>
+	</div>
+
+
+
+
+
+	<div id="footer">
+		<span style="float:left;">&copy; Copyright 2014-15 SkillCookie. All rights reserved.</span>
+		<span style="float:right;">
+			Designed by SkillCookie, Developed &amp; Powered by rb5
+		</span>
+	</div>
+
+
+
+	<div id="layer">
+		
+	</div>
+
+
+	<!--EVENT POP BOX STARTS-->
+	<div id="add-item-box-event" class="add-item-box">
+		<div id="add-item-box-content-event" class="add-item-box-content">
+			<center>
+			<input type="text" name="new-event" id="new-event">
+			<input type="hidden" name="post-tags-events" id="post-tags-events" value=""><br>
+			<span id="post-tags-display-" style="color:#000;font-size:10px;"></span>
+			<br>
+			<button class="post" id="add-tag-button-event" style="background:#e74c3c;">Add a Tag</button><br>
+			<button id="add-new-event">Add Event</button>
+			</center>
+		</div>
+		<div class="close" title="Click to close this window.">
+		x
+		</div>
+		<center><span id="message-event" style="color:red;font-size:14px;"></span></center>
+	</div>
+	<!--EVENT POP BOX ENDS-->
+
+
+	<!--PORTFOLIO POP BOX STARTS-->
+	<div id="add-item-box-portfolio" class="add-item-box">
+		<div id="add-item-box-content-portfolio" class="add-item-box-content">
+			<center>			
+			<input type="text" name="new-portfolio" id="new-portfolio">
+			<input type="hidden" name="post-tags-portfolio" id="post-tags-portfolio" value=""><br>
+			<span id="post-tags-display-" style="color:#000;font-size:10px;"></span>
+			<br>
+			<button class="post" id="add-tag-button-portfolio" style="background:#e74c3c;">Add a Tag</button>
+			<br>
+			<button id="add-new-portfolio">Add Portfolio</button>
+			</center>
+		</div>
+		<div class="close" title="Click to close this window.">
+		x
+		</div>
+		<center><span id="message-portfolio" style="color:red;font-size:14px;"></span></center>
+	</div>
+	<!--PORTFOLIO POP BOX ENDS-->
+
+
+
+	<!--SKILLJAR POP BOX STARTS-->
+	<div id="add-item-box-skilljar" class="add-item-box">
+		<div id="add-item-box-content-skilljar" class="add-item-box-content">
+			<center>
+			<br><br>
+			<input type="text" name="new-skilljar" id="new-skilljar">
+			<br>
+			<button id="add-new-skilljarMember">Add Skill</button>
+			</center>
+		</div>
+		<div class="close" title="Click to close this window.">
+		x
+		</div>
+		<center><span id="message-skilljar" style="color:red;font-size:14px;"></span></center>
+	</div>
+	<!--SKILLJAR POP BOX ENDS-->
+
+
+
+	<!--DP UPLOAD FORM STARTS-->
+	<div id="dp-box">
+		<div id="dp-box-content">
+			<center>
+			<br><br>
+				Select a picture :
+				<form action="dpupload.php" method="post" enctype="multipart/form-data" id="MyUploadForm">
+				<input name="ImageFile" id="imageInput" type="file" /><br>
+				<input class="upload-button" type="submit"  id="submit-btn" value="Upload" />
+				<!--<img src="images/ajax-loader.gif" id="loading-img" style="display:none;" alt="Please Wait"/>-->
+				</form>
+				<div id="output"></div>
+			</center>
+		</div>
+		<div class="close" title="Click to close this window.">
+		x
+		</div>
+	</div>
+	<!--PORTFOLIO POP BOX ENDS-->
+
+
+	
+	<!--ADD TAG STARTS-->
+
+	<div id="tags-outer-box">
+		<span>Select max. 3</span><hr>
+		<div id="tags-box-content">
+			<?php
+				if(isset($_COOKIE['_u__'])) {
+					require_once('./classes/User.php');
+					$ob = new User();
+					$arr = $ob->getSkillsList();
+				}
+				for($i=0;$i<count($arr);$i++) {
+					echo "<input type='checkbox' class='three-tags' name='three-tags' value='".$arr[$i]."'>".$arr[$i]."<br>";
+				}
+			?>
+		</div>
+		<div class="close2" title="Click to close this window.">
+		x
+		</div>
+	</div>
+	<!--ADD TAG ENDS-->
+
+	<!--ADD TAG STARTS-->
+
+	<div id="tags-outer-box3">
+		<span>Select max. 3</span><hr>
+		<div id="tags-box-content3">
+			<?php
+				if(isset($_COOKIE['_u__'])) {
+					require_once('./classes/User.php');
+					$ob = new User();
+					$arr = $ob->getSkillsList();
+				}
+				for($i=0;$i<count($arr);$i++) {
+					echo "<input type='checkbox' class='three-tags3' name='three-tags3' value='".$arr[$i]."'>".$arr[$i]."<br>";
+				}
+			?>
+		</div>
+		<div class="close3" title="Click to close this window.">
+		x
+		</div>
+	</div>
+	<!--ADD TAG ENDS-->
+
+	<!--PROFILE POP BOX STARTS-->
+	<div id="profile-details" class="add-item-box" style="height:350px;">
+		<div id="profile-details-content" class="add-item-box-content">
+			<center>
+			<h3>Profile Details</h3>
+			<?php
+				$email = "";
+				$website = "";
+				$phone = "";
+				$about = "";
+
+				if(isset($_COOKIE['_u__'])) {
+					require_once('./classes/User.php');
+					$ob = new User();
+					$regno = $ob->decrypt($_COOKIE['_u__']);
+					require_once('./authen.php');
+					$query='SELECT * FROM `details` WHERE `regno`="'.$regno.'"';
+					$res=mysql_query($query);
+					while($data=mysql_fetch_array($res)) {
+						$email=$data['email'];
+						$phone=$data['phone'];
+						$website=$data['website'];
+						$details=$data['details'];
+					}
+				}	
+			
+				echo '	
+				Email &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="email" id="email" value="'.$email.'"><br>
+				Phone &nbsp;&nbsp;&nbsp;<input type="text" name="phone" id="phone" value="'.$phone.'"><br>
+				Website <input type="text" name="website" id="website" value="'.$website.'"><br>
+				About &nbsp;&nbsp;&nbsp;&nbsp;<textarea name="about" id="about" cols=30 rows=4>'.$details.'</textarea>
+				';
+			?>
+			<br>
+			<button id="update-profile">Update Profile</button>
+			</center>
+		</div>
+		<div class="close" title="Click to close this window.">
+		x
+		</div>
+		<center><span id="message-update-profile" style="color:red;font-size:14px;"></span></center>
+	</div>
+	<!--PROFILE POP BOX ENDS-->
+
+</div>
+
+
+<script type="text/javascript" src="js/jquery.form.min.js"></script>
+<script type="text/javascript" src="js/upload.js"></script>
+
+<?php	include_once('./ganalytics.php');	?>
+
+
+</body>
+</html>
